@@ -1,0 +1,27 @@
+{
+  "name": "github-issues",
+  "version": "0.1.0",
+  "description": "Bookmark and manage github issues.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bjdixon/github-issues.git"
+  },
+  "keywords": [
+    "github",
+    "issues"
+  ],
+  "author": "Brian Dixon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bjdixon/github-issues/issues"
+  },
+  "homepage": "https://github.com/bjdixon/github-issues#readme",
+  "devDependencies": {
+    "body-parser": "^1.14.2",
+    "express": "^4.13.3"
+  }
+}
