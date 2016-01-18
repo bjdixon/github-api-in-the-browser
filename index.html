@@ -10,13 +10,19 @@
     <script>
     (function() {
       var tokenObj = {};
-      document.getElementById('login').onclick = function() {
-        var client_id = '2582beb06ed078ba0634';
-        window.open('https://github.com/login/oauth/authorize?client_id=' + client_id);
-      };
-      document.getElementById('getAuth').onclick = function() {
-        var authCode = getAuthCode(window.location.href);
-        getJSON('http://localhost:9999/authenticate/' + authCode, setToken);
+      document.getElementById('login').onclick = login;
+      document.getElementById('getAuth').onclick = getAuth;
+
+      function login() {
+        var client_id = '2582beb06ed078ba0634',
+          scopes = 'user,repo';
+        window.open('https://github.com/login/oauth/authorize?scopes=' + scopes + '&client_id=' + client_id);
+      }
+
+      function getAuth() {
+        var gatekeeperUrl = 'http://localhost:9999/authenticate/',
+          authCode = getAuthCode(window.location.href);
+        getJSON(gatekeeperUrl + authCode, setToken);
 
         function setToken() {
           tokenObj = JSON.parse(this.responseText);
@@ -29,15 +35,15 @@
             throw 'Error getting authorization code: ' + error[1];
           }
           return url.match(/[&\?]code=([\w\/\-]+)/)[1];
-        }          
-
-        function getJSON(url, cb) {
-          var req = new XMLHttpRequest();
-          req.addEventListener("load", cb);
-          req.open("GET", url);
-          req.send();
         }
-      };
+      }
+
+      function getJSON(url, cb) {
+        var req = new XMLHttpRequest();
+        req.addEventListener("load", cb);
+        req.open("GET", url);
+        req.send();
+      }
     }());
     </script>
 </body>
