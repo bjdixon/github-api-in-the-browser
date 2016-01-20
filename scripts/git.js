@@ -3,17 +3,18 @@ define(function() {
   function login() {
     var client_id = '2582beb06ed078ba0634',
       scopes = 'user,repo';
-    window.location = 'https://github.com/login/oauth/authorize?scopes=' + scopes + '&client_id=' + client_id;
+    window.location = 'https://github.com/login/oauth/authorize?scope=' + scopes + '&client_id=' + client_id;
   }
 
-  function getAuth(tokenObj) {
+  function setAuthToken() {
     var gatekeeperUrl = 'http://localhost:9999/authenticate/',
-      authCode = getAuthCode(window.location.href);
+      authCode = getAuthCode(window.location.href),
+      context = this;
 
     getJSON(gatekeeperUrl + authCode, setToken);
 
     function setToken() {
-      tokenObj.token = JSON.parse(this.responseText).token;
+      context.token = JSON.parse(this.responseText).token;
     }
 
     function getAuthCode(url){
@@ -39,8 +40,9 @@ define(function() {
 
   return {
     login: login,
-    getAuth: getAuth,
-    getJSON: getJSON
-  }
+    setAuthToken: setAuthToken,
+    getJSON: getJSON,
+    token: this.token
+  };
 });
 
