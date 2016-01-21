@@ -1,17 +1,15 @@
-define(function() {
+define(['./config'], function(config) {
 
   function login() {
-    var client_id = '2582beb06ed078ba0634',
-      scopes = 'user,repo';
-    window.location = 'https://github.com/login/oauth/authorize?scope=' + scopes + '&client_id=' + client_id;
+    var scopes = 'user,repo';
+    window.location = config.loginUrl + '?scope=' + scopes + '&client_id=' + config.client_id;
   }
 
   function setAuthToken() {
-    var gatekeeperUrl = 'http://localhost:9999/authenticate/',
-      authCode = getAuthCode(window.location.href),
+    var authCode = getAuthCode(window.location.href),
       context = this;
 
-    getJSON(gatekeeperUrl + authCode, setToken);
+    getJSON(config.gatekeeperUrl + authCode, setToken);
 
     function setToken() {
       context.token = JSON.parse(this.responseText).token;
